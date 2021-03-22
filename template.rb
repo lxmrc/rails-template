@@ -25,5 +25,11 @@ def use_custom_gemfile
   copy_file "Gemfile", force: true
 end
 
+# Disable unwanted generators
+def disable_unwanted_generators
+  copy_file "config/application.rb", force: true
+end
+
 add_template_directory_to_source_path
 use_custom_gemfile
+disable_unwanted_generators
