@@ -30,6 +30,22 @@ def disable_unwanted_generators
   copy_file "config/application.rb", force: true
 end
 
+# Run `rails webpacker:install`
+def add_webpacker
+  rails_command "webpacker:install"
+end
+
+# Add Bootstrap and jQuery
+def add_bootstrap_and_jquery
+  run("yarn add bootstrap jquery popper.js")
+  directory "app/javascript/css"
+  copy_file "app/javascript/packs/application.js", force: true
+  copy_file "config/webpack/environment.js", force: true
+  copy_file "app/views/layouts/application.html.erb", force: true
+end
+
 add_template_directory_to_source_path
 use_custom_gemfile
 disable_unwanted_generators
+add_webpacker
+add_bootstrap_and_jquery
