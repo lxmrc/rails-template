@@ -49,5 +49,7 @@ module RailsTemplate
       g.controller_specs  false
     end
 
+    config.application_name = Rails.application.class.module_parent_name
+
   end
 end
