@@ -62,8 +62,20 @@ def add_bootstrap_and_jquery
   copy_file "app/views/layouts/application.html.erb", force: true
 end
 
+def set_application_name
+  environment "config.application_name = Rails.application.class.module_parent_name"
+end
+
+def copy_templates
+  directory "app/controllers"
+  directory "app/views"
+  copy_file "config/routes.rb", force: true
+end
+
 add_template_directory_to_source_path
 use_custom_gemfile
 disable_unwanted_generators
 add_webpacker
 add_bootstrap_and_jquery
+set_application_name
+copy_templates
