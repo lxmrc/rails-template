@@ -21,7 +21,7 @@ def add_template_directory_to_source_path
 end
 
 # Replace default Gemfile with custom version
-def use_custom_gemfile
+def add_custom_gemfile
   copy_file "Gemfile", force: true
 end
 
@@ -66,16 +66,32 @@ def set_application_name
   environment "config.application_name = Rails.application.class.module_parent_name"
 end
 
+def add_simple_form
+  generate "simple_form:install --bootstrap"
+end
+
+def add_users
+  generate "devise:install"
+  generate "devise:views"
+  generate :devise, "User", "username"
+end
+
 def copy_templates
-  directory "app/controllers"
-  directory "app/views"
+  directory "app/controllers", force: true
+  directory "app/views", force: true
   copy_file "config/routes.rb", force: true
 end
 
 add_template_directory_to_source_path
-use_custom_gemfile
+add_custom_gemfile
 disable_unwanted_generators
 add_webpacker
 add_bootstrap_and_jquery
 set_application_name
+add_simple_form
+add_users
 copy_templates
+
+# DELETE LATER
+rails_command "db:reset"
+rails_command "db:migrate"
