@@ -27,7 +27,25 @@ end
 
 # Disable unwanted generators
 def disable_unwanted_generators
-  copy_file "config/application.rb", force: true
+  insert_into_file "config/application.rb", 
+    after: "config.generators.system_tests = nil" do
+      <<-RUBY
+    \n
+    config.generators do |g|
+      g.stylesheets       false
+      g.javascripts       false
+      g.helper            false
+      g.assets            false
+      g.view_specs        false
+      g.fixtures          false
+      g.view_specs        false
+      g.helper_specs      false
+      g.routing_specs     false
+      g.request_specs     false
+      g.controller_specs  false
+    end
+      RUBY
+    end
 end
 
 # Run `rails webpacker:install`
